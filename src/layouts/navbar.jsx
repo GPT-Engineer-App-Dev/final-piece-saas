@@ -16,12 +16,16 @@ import { navItems } from "../App";
 const Layout = () => {
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 justify-between">
+      <header className="sticky top-0 z-50 flex h-16 items-center gap-4 border-b bg-background/95 px-4 md:px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <DesktopNav />
         <MobileNav />
-        <UserMenu />
+        <div className="ml-auto flex items-center gap-4">
+          <Button variant="outline">Sign In</Button>
+          <Button>Sign Up</Button>
+          <UserMenu />
+        </div>
       </header>
-      <main className="flex-grow overflow-auto">
+      <main className="flex-grow">
         <Outlet />
       </main>
     </div>
@@ -35,7 +39,7 @@ const DesktopNav = () => (
       className="flex items-center gap-2 text-lg font-semibold md:text-base"
     >
       <Package2 className="h-6 w-6" />
-      <span className="sr-only">Acme Inc</span>
+      <span>SaaS Company</span>
     </NavItem>
     {navItems.map((item) => (
       <NavItem key={item.to} to={item.to}>
@@ -60,7 +64,7 @@ const MobileNav = () => (
           className="flex items-center gap-2 text-lg font-semibold"
         >
           <Package2 className="h-6 w-6" />
-          <span className="sr-only">Acme Inc</span>
+          <span>SaaS Company</span>
         </NavItem>
         {navItems.map((item) => (
           <NavItem key={item.to} to={item.to}>
@@ -75,7 +79,7 @@ const MobileNav = () => (
 const UserMenu = () => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <Button variant="secondary" size="icon" className="rounded-full">
+      <Button variant="ghost" size="icon" className="rounded-full">
         <CircleUser className="h-5 w-5" />
         <span className="sr-only">Toggle user menu</span>
       </Button>
@@ -83,6 +87,7 @@ const UserMenu = () => (
     <DropdownMenuContent align="end">
       <DropdownMenuLabel>My Account</DropdownMenuLabel>
       <DropdownMenuSeparator />
+      <DropdownMenuItem>Profile</DropdownMenuItem>
       <DropdownMenuItem>Settings</DropdownMenuItem>
       <DropdownMenuItem>Support</DropdownMenuItem>
       <DropdownMenuSeparator />
@@ -96,11 +101,9 @@ const NavItem = ({ to, children, className }) => (
     to={to}
     className={({ isActive }) =>
       cn(
-        "transition-colors",
-        isActive
-          ? "text-foreground"
-          : "text-muted-foreground hover:text-foreground",
-        className,
+        "transition-colors hover:text-foreground/80",
+        isActive ? "text-foreground" : "text-foreground/60",
+        className
       )
     }
   >
